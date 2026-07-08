@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'M-Pesa Global Card Loans - Fast & Secure Micro Loans',
+  description: 'Get instant micro loans with M-Pesa Global Card Loans. Fast approval, low interest rates, and flexible repayment options.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -28,9 +28,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: 'light dark',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
+    { media: '(prefers-color-scheme: light)', color: '#00A651' },
+    { media: '(prefers-color-scheme: dark)', color: '#1a1a1a' },
   ],
+  userScalable: true,
 }
 
 export default function RootLayout({
@@ -39,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-background">
       <body className="antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
