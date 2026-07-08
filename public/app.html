@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Pesa Global Card Loans - Fast & Secure Micro Loans</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00A651;
+            --accent: #D97706;
+            --background: #F9FAFB;
+            --foreground: #111827;
+            --muted: #6B7280;
+            --border: #E5E7EB;
+            --card: #FFFFFF;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        nav a {
+            color: var(--foreground);
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 166, 81, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
+            border-radius: 12px;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--foreground);
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 25px rgba(0, 166, 81, 0.1);
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        /* Form Section */
+        .form-section {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-section h2 {
+            color: var(--foreground);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--foreground);
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-row input {
+            width: 100%;
+        }
+
+        .error {
+            color: #DC2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .info-box {
+            background: rgba(0, 166, 81, 0.05);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--foreground);
+        }
+
+        /* Buttons */
+        button {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #008c3c;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 166, 81, 0.2);
+        }
+
+        button:disabled {
+            background: var(--muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--foreground);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            nav a {
+                margin-left: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                padding: 1rem;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            background: rgba(0, 166, 81, 0.1);
+            border: 2px solid var(--primary);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .success-message h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .success-message p {
+            color: var(--foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 166, 81, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">M-Pesa Global Loans</div>
+            <div>
+                <a href="#home">Home</a>
+                <a href="#apply">Apply</a>
+                <a href="#features">Features</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="container hero">
+            <h1>Fast, Secure Loans at Your Fingertips</h1>
+            <p>Get instant access to micro-loans with M-Pesa Global Card Loans. Low interest rates, quick approval, and flexible repayment terms tailored to your needs.</p>
+            <button onclick="document.getElementById('apply').scrollIntoView({ behavior: 'smooth' })">Apply Now</button>
+        </section>
+
+        <!-- Features -->
+        <section id="features" class="container">
+            <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Why Choose M-Pesa Loans?</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <h3>Instant Approval</h3>
+                    <p>Get approved in minutes. Our automated system processes your application instantly without unnecessary delays.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Secure & Safe</h3>
+                    <p>Bank-level encryption protects your personal and financial information with industry-leading security standards.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Competitive Rates</h3>
+                    <p>Enjoy industry-leading interest rates starting from 15% APR. No hidden fees or surprise charges.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Flexible Terms</h3>
+                    <p>Choose repayment terms from 3 to 24 months. Adjust your payment schedule to match your cash flow.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>24/7 Support</h3>
+                    <p>Our dedicated support team is always available to help you with questions or concerns anytime.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Simple Process</h3>
+                    <p>Apply online in 5 minutes. No paperwork, no office visits. Everything is handled digitally.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application Form -->
+        <section id="apply" class="container">
+            <div class="form-section">
+                <h2>Apply for a Loan</h2>
+                
+                <div id="formContent">
+                    <div class="info-box">
+                        Complete the form below to apply for your M-Pesa Global Card Loan
+                    </div>
+
+                    <form id="loanForm">
+                        <!-- Personal Details -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <div class="error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                                <div class="error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number *</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+254..." required>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+
+                        <!-- Loan Details -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="loanAmount">Loan Amount (KES) *</label>
+                                <input type="number" id="loanAmount" name="loanAmount" min="10000" max="50000" placeholder="Enter amount" required>
+                                <div class="error"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="loanTerm">Loan Term (months) *</label>
+                                <select id="loanTerm" name="loanTerm" required>
+                                    <option value="">Select term</option>
+                                    <option value="3">3 months</option>
+                                    <option value="6">6 months</option>
+                                    <option value="12">12 months</option>
+                                    <option value="18">18 months</option>
+                                    <option value="24">24 months</option>
+                                </select>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+
+                        <!-- Purpose -->
+                        <div class="form-group">
+                            <label for="purpose">Loan Purpose *</label>
+                            <textarea id="purpose" name="purpose" placeholder="Tell us why you need this loan..." required></textarea>
+                            <div class="error"></div>
+                        </div>
+
+                        <button type="submit">Submit Application</button>
+                    </form>
+                </div>
+
+                <!-- Success Message -->
+                <div id="successMessage" class="hidden">
+                    <div class="success-message">
+                        <h3>Application Submitted Successfully!</h3>
+                        <p>Your loan application has been received.</p>
+                        <p>One of our support team members will contact you shortly via WhatsApp to complete the process.</p>
+                        <p style="margin-top: 1.5rem; font-weight: bold;">Redirecting to WhatsApp...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 M-Pesa Global Card Loans. All rights reserved.</p>
+        <p>For support, contact us on <a href="https://wa.me/254700000000">WhatsApp</a></p>
+    </footer>
+
+    <script>
+        const form = document.getElementById('loanForm');
+        const formContent = document.getElementById('formContent');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Collect form data
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                loanAmount: document.getElementById('loanAmount').value,
+                loanTerm: document.getElementById('loanTerm').value,
+                purpose: document.getElementById('purpose').value,
+                submittedAt: new Date().toLocaleString()
+            };
+
+            // Validate form
+            const allFields = form.querySelectorAll('input, select, textarea');
+            let isValid = true;
+
+            allFields.forEach(field => {
+                const error = field.parentElement.querySelector('.error');
+                if (!field.value.trim()) {
+                    error.textContent = 'This field is required';
+                    error.classList.add('show');
+                    isValid = false;
+                } else {
+                    error.classList.remove('show');
+                }
+            });
+
+            if (!isValid) return;
+
+            // Show success message
+            formContent.classList.add('hidden');
+            successMessage.classList.remove('hidden');
+
+            // Prepare WhatsApp message
+            const whatsappMessage = `Hello! I would like to apply for an M-Pesa Global Card Loan.
+
+Name: ${formData.firstName} ${formData.lastName}
+Email: ${formData.email}
+Phone: ${formData.phone}
+Loan Amount: KES ${formData.loanAmount}
+Loan Term: ${formData.loanTerm} months
+Purpose: ${formData.purpose}
+
+Please help me complete the loan application process.`;
+
+            // Redirect to WhatsApp after 2 seconds
+            setTimeout(() => {
+                const whatsappLink = `https://wa.me/254700000000?text=${encodeURIComponent(whatsappMessage)}`;
+                window.location.href = whatsappLink;
+            }, 2000);
+        });
+
+        // Clear errors on input
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('focus', () => {
+                const error = field.parentElement.querySelector('.error');
+                if (error) error.classList.remove('show');
+            });
+        });
+    </script>
+</body>
+</html>
