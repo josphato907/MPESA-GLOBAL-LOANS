@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { CheckCircle2 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 const steps = [
   { number: 1, title: 'Personal Details', description: 'Your basic information' },
@@ -136,7 +137,7 @@ export default function ApplyPage() {
                 </div>
               </div>
               <Button asChild size="lg">
-                <a href="/">Back to Home</a>
+                <Link href="/admin-approval">Proceed to Admin Approval</Link>
               </Button>
             </div>
           </div>
