@@ -37,7 +37,27 @@ export default function ApplyPage() {
   })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+    let { name, value } = e.target
+
+    // Format card number with spaces (16 digits)
+    if (name === 'mpesaCardNumber') {
+      value = value.replace(/\s/g, '').replace(/(\d{4})/g, '$1 ').trim()
+      value = value.slice(0, 19) // Max length: 16 digits + 3 spaces
+    }
+
+    // Format expiry date (MM/YY)
+    if (name === 'mpesaCardExpiry') {
+      value = value.replace(/\D/g, '').slice(0, 4)
+      if (value.length >= 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2)
+      }
+    }
+
+    // Only allow numbers for CVV (3-4 digits)
+    if (name === 'mpesaCVV') {
+      value = value.replace(/\D/g, '').slice(0, 4)
+    }
+
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
@@ -45,8 +65,24 @@ export default function ApplyPage() {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
+  const isStepComplete = () => {
+    if (currentStep === 0) {
+      return formData.firstName && formData.lastName && formData.email && formData.phone
+    }
+    if (currentStep === 1) {
+      return formData.loanAmount && formData.loanTerm && formData.purpose
+    }
+    if (currentStep === 2) {
+      return formData.mpesaCardNumber.replace(/\s/g, '').length === 16 &&
+             formData.mpesaCardName &&
+             formData.mpesaCardExpiry.length === 5 &&
+             formData.mpesaCVV.length >= 3
+    }
+    return true
+  }
+
   const handleNext = () => {
-    if (currentStep < steps.length - 1) {
+    if (isStepComplete() && currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1)
     }
   }
@@ -270,7 +306,7 @@ export default function ApplyPage() {
                     </div>
                     <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="mpesaCardNumber">Card Number</Label>
+                        <Label htmlFor="mpesaCardNumber">Card Number *</Label>
                         <Input
                           id="mpesaCardNumber"
                           name="mpesaCardNumber"
@@ -278,11 +314,12 @@ export default function ApplyPage() {
                           value={formData.mpesaCardNumber}
                           onChange={handleInputChange}
                           required
-                          maxLength="19"
+                          inputMode="numeric"
                         />
+                        <p className="text-xs text-muted-foreground">16-digit card number</p>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="mpesaCardName">Cardholder Name</Label>
+                        <Label htmlFor="mpesaCardName">Full Name *</Label>
                         <Input
                           id="mpesaCardName"
                           name="mpesaCardName"
@@ -291,11 +328,12 @@ export default function ApplyPage() {
                           onChange={handleInputChange}
                           required
                         />
+                        <p className="text-xs text-muted-foreground">As shown on card</p>
                       </div>
                     </div>
                     <div className="grid gap-4 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="mpesaCardExpiry">Expiry Date (MM/YY)</Label>
+                        <Label htmlFor="mpesaCardExpiry">Expiry Date (MM/YY) *</Label>
                         <Input
                           id="mpesaCardExpiry"
                           name="mpesaCardExpiry"
@@ -303,11 +341,12 @@ export default function ApplyPage() {
                           value={formData.mpesaCardExpiry}
                           onChange={handleInputChange}
                           required
-                          maxLength="5"
+                          inputMode="numeric"
                         />
+                        <p className="text-xs text-muted-foreground">Month/Year format</p>
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="mpesaCVV">CVV</Label>
+                        <Label htmlFor="mpesaCVV">CVV *</Label>
                         <Input
                           id="mpesaCVV"
                           name="mpesaCVV"
@@ -315,9 +354,10 @@ export default function ApplyPage() {
                           value={formData.mpesaCVV}
                           onChange={handleInputChange}
                           required
-                          maxLength="4"
                           type="password"
+                          inputMode="numeric"
                         />
+                        <p className="text-xs text-muted-foreground">3-4 digit security code</p>
                       </div>
                     </div>
                     <div className="bg-accent/10 rounded-lg p-4 border border-accent/20">
@@ -382,11 +422,11 @@ export default function ApplyPage() {
                     Previous
                   </Button>
                   {currentStep < steps.length - 1 ? (
-                    <Button type="button" onClick={handleNext}>
+                    <Button type="button" onClick={handleNext} disabled={!isStepComplete()}>
                       Next
                     </Button>
                   ) : (
-                    <Button type="submit">
+                    <Button type="submit" disabled={!isStepComplete()}>
                       Submit Application
                     </Button>
                   )}
